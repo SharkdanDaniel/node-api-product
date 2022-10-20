@@ -22,4 +22,4 @@ app.use((err: Error | any, req: Request, res: Response, next: NextFunction) => {
     return res.status(500).json({ status: 500, message: "Internal Server Error" });
 })
 
-app.listen(process.env.SERVER_PORT, () => console.log("Server is running!"));
+app.listen(process.env.SERVER_PORT || 3333, () => console.log("Server is running!"));

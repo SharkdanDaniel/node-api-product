@@ -13,6 +13,9 @@ const productController = new ProductController();
 const tagController = new TagController();
 const avatarController = new AvatarController();
 
+// host
+router.get("/", (req, res) => res.send('Hello World'));
+
 // login
 router.post("/login", authController.login);
 
