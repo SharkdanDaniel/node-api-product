@@ -14,7 +14,7 @@ const tagController = new TagController();
 const avatarController = new AvatarController();
 
 // host
-router.get("/", (req, res) => res.send('Hello World'));
+router.get("/", (req, res) => res.send('Server is running!'));
 
 // login
 router.post("/login", authController.login);

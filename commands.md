@@ -1,0 +1,11 @@
+"start": "node dist/index.js",
+"postinstall": "npm run migration:run && tsc && mv -i -v public dist/ && rm -v -rf src",
+"dev": "ts-node-dev src/index.ts",
+"typeorm": "typeorm-ts-node-commonjs",
+"migration:run": "typeorm-ts-node-commonjs migration:run -d src/db/data-source.ts",
+"migration:revert": "typeorm-ts-node-commonjs migration:revert -d src/db/data-source.ts",
+"migration:create": "cd src/db/migrations && npx typeorm-ts-node-commonjs migration:create",
+"migration:generate": "cd src/db/migrations && npx typeorm-ts-node-commonjs migration:generate -d ../data-source.ts",
+"migration:up": "./node_modules/.bin/ts-node ./node_modules/.bin/typeorm migration:run -d src/db/data-source.ts",
+"migration:down": "./node_modules/.bin/ts-node ./node_modules/.bin/typeorm migration:revert -d src/db/data-source.ts",
+"entity:create": "cd src/entities && npx typeorm-ts-node-commonjs entity:create"
