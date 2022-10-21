@@ -42,7 +42,7 @@ export class ProductService {
 
     async getById(id: string) {
         const productsRepositories = ProductsRepositories;
-        const product = await productsRepositories.find({ where: { id }, relations: { tags: false, users: true } });
+        const product = await productsRepositories.find({ where: { id }, relations: { tags: true, users: true } });
         if(product) return instanceToPlain(product);
         throw { status: 404, message: "Product not found" };
     }
