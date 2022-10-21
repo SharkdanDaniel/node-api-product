@@ -19,7 +19,7 @@ export class AvatarService {
 
     async create({ file, user_id }: IAvatarRequest) {
         const avatarsRepositories = AvatarsRepositories;
-        const path = 'src/uploads/' + file.name;
+        const path = 'public/uploads/' + file.name;
         const user = await UsersRepositories.findOneByOrFail({ id: user_id })
         const avatar = await avatarsRepositories.create({
             fileName: file.name,

@@ -16,6 +16,7 @@ app.use(cors({
 app.use(fileUpload());
 app.use(express.json());
 app.use(router);
+app.use('/public', express.static(__dirname + 'public'));
 app.use((err: Error | any, req: Request, res: Response, next: NextFunction) => {
     if (err.status) return res.status(err.status).json({ status: err.status, message: err.message });
     if (err instanceof Error) return res.status(400).json({ status: 400, message: err.message });
