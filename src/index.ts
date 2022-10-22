@@ -37,7 +37,7 @@ app.use((err: Error | any, req: Request, res: Response, next: NextFunction) => {
 
 swaggerOptions.baseDir = __dirname;
 
-expressJSDocSwagger(app)(swaggerOptions);
+// expressJSDocSwagger(app)(swaggerOptions);
 
 app.listen(PORT, () => {
   console.log("Server is running!");
