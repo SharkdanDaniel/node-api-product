@@ -21,11 +21,6 @@ app.use(cors({
 app.use(fileUpload());
 app.use(express.json());
 app.use('/api', router);
-// app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerOptions));
-// app.get("docs.json", (req, res) => {
-//   res.setHeader("Content-Type", "application/json");
-//   res.send(swaggerOptions)
-// });
 app.get('/', (req, res) => res.redirect('docs'));
 // app.use(express.static("public"));
 app.use('/public', express.static(__dirname + 'public'));
@@ -39,7 +34,4 @@ swaggerOptions.baseDir = __dirname;
 
 expressJSDocSwagger(app)(swaggerOptions);
 
-app.listen(PORT, () => {
-  console.log("Server is running!");
-  // swaggerDocs(app, Number(PORT));
-});
+app.listen(PORT, () => console.log("Server is running!"));

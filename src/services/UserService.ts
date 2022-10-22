@@ -2,6 +2,7 @@ import { UsersRepositories } from "../repositories/UsersRepositories";
 import { hash } from "bcryptjs";
 import { instanceToPlain } from "class-transformer";
 import { Product } from "../entities/Product";
+import { Brackets } from "typeorm";
 
 interface IUserRequest {
     id?: string;
@@ -20,8 +21,13 @@ export class UserService {
                 .skip(skip)
                 .take(take)
                 .orderBy({ [order]: sort })
-                .where('name LIKE :name', { name: `%${search}%` })
-                .orWhere('email LIKE :email', { email: `%${search}%` })
+                .where('email != :email', { email: 'admin@admin.com' })
+                .andWhere(
+                    new Brackets((qb) => {
+                        qb.where('name LIKE :name', { name: `%${search}%` })
+                        .orWhere('email LIKE :email', { email: `%${search}%` })
+                    })
+                )
                 .getMany()
 
             const total = await usersRepository.createQueryBuilder()

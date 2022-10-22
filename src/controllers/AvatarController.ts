@@ -18,17 +18,19 @@ export class AvatarController {
         return res.json(avatar);
     }
 
-    // async update(request: Request, response: Response) {
-    //     const { id, name } = request.body;
-    //     const tagService = new TagService();
-    //     const tag = await tagService.update({ id, name });
-    //     return response.json(tag);
-    // }
+    async update(req: Request, res: Response) {
+        const { image } = req.files as any;
+        const { id } = req.params;
+        console.log(image)
+        const avatarService = new AvatarService();
+        const avatar = await avatarService.update({ file: image, id });
+        return res.json(avatar);
+    }
 
-    // async delete(request: Request, response: Response) {
-    //     const { id } = request.params;
-    //     const tagService = new TagService();
-    //     const tag = await tagService.delete(id);
-    //     return response.json(tag);
-    // }
+    async delete(request: Request, response: Response) {
+        const { id } = request.params;
+        const avatarService = new AvatarService();
+        const avatar = await avatarService.delete(id);
+        return response.json(avatar);
+    }
 }

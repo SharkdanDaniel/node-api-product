@@ -16,3 +16,9 @@
  * @property {string} mediaType - user email - email 
  * @property {string} src
  */
+
+/**
+ * A user type
+ * @typedef {object} AvatarCreate
+ * @property {string} image - image file - binary
+ */

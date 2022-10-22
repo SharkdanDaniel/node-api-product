@@ -36,13 +36,14 @@ export const productRouter = (router: Router) => {
      * PUT /api/products
      * @summary Update a product
      * @tags Products
+     * @security BearerAuth
      * @param {ProductModel} request.body.required
      * @return {ProductModel} 200 - success response - application/json
      */
     router.put("/products", ensureAuth, productController.update);
     /**
      * DELETE /api/products/{productId}
-     * @summary Delete a user
+     * @summary Delete a product
      * @tags Products
      * @security BearerAuth
      * @param {string} productId.path.required - product id - uuid

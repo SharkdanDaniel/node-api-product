@@ -57,7 +57,7 @@ export const swaggerOptions = {
             type: 'http',
             scheme: 'bearer',
             bearerFormat: 'JWT',
-            description: "Example: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGFkbWluL"
+            description: "Example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGFkbWluL"
         }
     },
     baseDir: '',

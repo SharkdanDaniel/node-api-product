@@ -36,6 +36,7 @@ export const userRouter = (router: Router) => {
      * PUT /api/users
      * @summary Update a user
      * @tags Users
+     * @security BearerAuth
      * @param {UserUpdate} request.body.required
      * @return {UserModel} 200 - success response - application/json
      */
