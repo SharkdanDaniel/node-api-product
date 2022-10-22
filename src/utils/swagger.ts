@@ -62,6 +62,6 @@ export const swaggerOptions = {
     },
     baseDir: '',
     swaggerUIPath: '/docs',
-    filesPattern: './**/*.ts',
+    filesPattern: './**/*.{ts,js}',
     exposeSwaggerUI: true,
 };
