@@ -35,6 +35,8 @@ app.use((err: Error | any, req: Request, res: Response, next: NextFunction) => {
   return res.status(500).json({ status: 500, message: "Internal Server Error" });
 })
 
+swaggerOptions.baseDir = __dirname;
+
 expressJSDocSwagger(app)(swaggerOptions);
 
 app.listen(PORT, () => {

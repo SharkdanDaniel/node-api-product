@@ -60,7 +60,7 @@ export const swaggerOptions = {
             description: "Example: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGFkbWluL"
         }
     },
-    baseDir: './',
+    baseDir: '',
     swaggerUIPath: '/docs',
     filesPattern: './**/*.ts',
     exposeSwaggerUI: true,
