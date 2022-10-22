@@ -3,12 +3,10 @@ import 'dotenv/config';
 import express, { NextFunction, Request, Response } from 'express';
 import "express-async-errors";
 import { router } from "./routes";
-import swaggerUi from "swagger-ui-express";
 import "./db";
 import cors from "cors";
 import fileUpload from "express-fileupload";
 import { swaggerOptions } from "./utils/swagger";
-import { version } from '../package.json';
 import  expressJSDocSwagger from 'express-jsdoc-swagger';
 
 const PORT = process.env.PORT || 8000;

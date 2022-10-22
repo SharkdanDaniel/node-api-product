@@ -10,6 +10,11 @@ export const tagRouter = (router: Router) => {
      * @summary Get tag list
      * @tags Tags
      * @security BearerAuth
+     * @param {string} skip.query - Skip items - default: 0
+     * @param {string} take.query - Take total items - default: 10
+     * @param {string} order.query - Order by property name - default: name
+     * @param {string} sort.query - ASC or DESC order - default: ASC
+     * @param {string} search.query - Terms to filter items
      * @return {TagList} 200 - success response - application/json
      
      */

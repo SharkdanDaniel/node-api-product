@@ -8,8 +8,8 @@
   },
   "scripts": {
     "start": "node dist/src/index.js",
-    "postinstall": "tsc",
     "dev": "ts-node-dev src/index.ts",
+    "build": "tsc",
     "typeorm": "typeorm-ts-node-commonjs",
     "migration:run": "typeorm-ts-node-commonjs migration:run -d src/db/data-source.ts",
     "migration:prod:run": "typeorm-ts-node-commonjs migration:run -d dist/db/data-source.ts",
