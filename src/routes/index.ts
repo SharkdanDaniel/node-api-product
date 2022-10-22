@@ -1,31 +1,20 @@
 import { Router } from "express";
-import { AuthController } from "./controllers/AuthController";
-import { AvatarController } from "./controllers/AvatarController";
-import { ProductController } from "./controllers/ProductController";
-import { TagController } from "./controllers/TagController";
-import { UserController } from "./controllers/UserController";
-import { ensureAuth } from "./middlewares/ensureAuth";
+import { AvatarController } from "../controllers/AvatarController";
+import { ProductController } from "../controllers/ProductController";
+import { TagController } from "../controllers/TagController";
+import { UserController } from "../controllers/UserController";
+import { ensureAuth } from "../middlewares/ensureAuth";
+import { authRouter } from "./authRouter";
+import { userRouter } from "./userRouter";
 
 const router = Router();
-const authController = new AuthController();
 const userController = new UserController();
 const productController = new ProductController();
 const tagController = new TagController();
 const avatarController = new AvatarController();
 
-// host
-router.get("/", (req, res) => res.send('Server is running!'));
-
-// login
-router.post("/login", authController.login);
-
-// users
-router.get("/users", ensureAuth, userController.getAll);
-router.get("/users/:id", ensureAuth, userController.getById);
-router.post("/users", ensureAuth, userController.create);
-router.put("/users", ensureAuth, userController.update);
-router.delete("/users/:id", ensureAuth, userController.delete);
-
+authRouter(router);
+userRouter(router);
 // products
 router.get("/products", ensureAuth, productController.getAll);
 router.get("/products/:id", ensureAuth, productController.getById);
@@ -41,6 +30,7 @@ router.put("/tags", ensureAuth, tagController.update);
 router.delete("/tags/:id", ensureAuth, tagController.delete);
 // avatars
 router.get("/avatars", ensureAuth, avatarController.getById);
+
 router.post("/avatars", ensureAuth, avatarController.create);
 
 export { router };

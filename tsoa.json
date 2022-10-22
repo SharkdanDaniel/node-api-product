@@ -1,0 +1,23 @@
+{
+    "entryFile": "src/index.ts",
+    "noImplicitAdditionalProperties": "throw-on-extras",
+    "controllerPathGlobs": ["src/**/*Controller.ts"],
+    "spec": {
+        "outputDirectory": "public",
+        "specVersion": 3,
+        "servers": [],
+        "securityDefinitions": {
+            "api_key": {
+                "type": "apiKey",
+                "description": "Example: Bearer 1|tYfXgGERi0gcGH7Vdu6TYdWdijCCdrdPjY6jGBphAnwx",
+                "in": "header",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        }
+    },
+    "routers": {
+        "routersDir": "public"
+    },
+    "ignore": ["**/node_modules/**"]
+}
