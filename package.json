@@ -10,7 +10,7 @@
     "start": "node dist/src/index.js",
     "dev": "ts-node-dev src/index.ts",
     "test": "jest --coverage",
-    "test:watch": "jest --watch --coverage",
+    "test:watch": "jest --watchAll --coverage",
     "build": "tsc",
     "typeorm": "typeorm-ts-node-commonjs",
     "migration:run": "typeorm-ts-node-commonjs migration:run -d src/db/data-source.ts",

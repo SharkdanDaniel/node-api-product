@@ -1,6 +1,9 @@
 import { DataSource } from 'typeorm';
 import Database from 'better-sqlite3';
 
+const entities = ['src/entities/*.ts'];
+const migrations = ['src/db/migrations/*.ts'];
+
 export class TestHelper {
 
     private static _instance: TestHelper;
@@ -23,15 +26,24 @@ export class TestHelper {
     async setupTestDB() {
         this.testdb = new Database(':memory:', { verbose: console.log });
         this.dbConnect = new DataSource({
-            name: 'test-db',
+            name: 'default',
             type: 'better-sqlite3',
             database: ':memory:',
-            entities: ['src/entities/**/*.ts'],
+            entities: ['src/entities/*.ts'],
+            migrations: ['src/db/migrations/*.ts'],
+            dropSchema: true,
+            migrationsRun: true,
             synchronize: true
-        });
+        })
+        await this.dbConnect.initialize();
     }
 
-    teardownTestDB() {
+    async teardownTestDB() {
+        // const entityDeletionPromises = entities.map((entity: any) => async () => {
+        //     const repository = this.dbConnect.getRepository(entity.name);
+        //     await repository.query(`DELETE FROM ${entity.tableName}`);
+        // });
+        // await Promise.all(entityDeletionPromises);
         this.dbConnect.destroy();
         this.testdb.close();
     }
