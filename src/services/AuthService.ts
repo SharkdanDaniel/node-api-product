@@ -9,9 +9,11 @@ interface IAuthRequest {
 }
 
 export class AuthService {
+
+    public usersRepositories = UsersRepositories;
+
     async login({ email, password }: IAuthRequest) {
-        const usersRepositories = UsersRepositories;
-        const user = await usersRepositories.findOneBy({ email });
+        const user = await this.usersRepositories.findOneBy({ email });
         if(!user) throw new Error("Email/Password incorrect");
         const passwordMatch = await compare(password, user.password);
         if(!passwordMatch) throw new Error("Email/Password incorrect");
