@@ -15,8 +15,7 @@ export const productRouter = (router: Router) => {
      * @param {string} order.query - Order by property name - default: name
      * @param {string} sort.query - ASC or DESC order - default: ASC
      * @param {string} search.query - Terms to filter items
-     * @return {ProductList} 200 - success response - application/json
-     
+     * @return {ProductListDTO} 200 - success response - application/json     
      */
     router.get("/products", ensureAuth, productController.getAll);
     /**
@@ -25,7 +24,7 @@ export const productRouter = (router: Router) => {
      * @tags Products
      * @security BearerAuth
      * @param {string} productId.path.required - product id - uuid
-     * @return {ProductModel} 200 - success response - application/json
+     * @return {ProductDTO} 200 - success response - application/json
      */
     router.get("/products/:id", ensureAuth, productController.getById);
     /**
@@ -33,8 +32,8 @@ export const productRouter = (router: Router) => {
      * @summary Create a product
      * @tags Products
      * @security BearerAuth
-     * @param {ProductDTO} request.body.required
-     * @return {ProductDTO} 200 - success response - application/json
+     * @param {ProductCreateDTO} request.body.required
+     * @return {ProductModel} 200 - success response - application/json
      */
     router.post("/products", ensureAuth, productController.create);
     /**
@@ -42,8 +41,8 @@ export const productRouter = (router: Router) => {
      * @summary Update a product
      * @tags Products
      * @security BearerAuth
-     * @param {ProductModel} request.body.required
-     * @return {ProductModel} 200 - success response - application/json
+     * @param {ProductUpdateDTO} request.body.required
+     * @return {ProductDTO} 200 - success response - application/json
      */
     router.put("/products", ensureAuth, productController.update);
     /**

@@ -1,4 +1,5 @@
-import { DataSource } from 'typeorm';
+import { DataSource, DataSourceOptions, MigrationExecutor } from 'typeorm';
+import { runSeeders, SeederOptions } from 'typeorm-extension';
 import Database from 'better-sqlite3';
 
 const entities = ['src/entities/*.ts'];
@@ -25,7 +26,7 @@ export class TestHelper {
 
     async setupTestDB() {
         this.testdb = new Database(':memory:', { verbose: console.log });
-        this.dbConnect = new DataSource({
+        const options: DataSourceOptions & SeederOptions = {
             name: 'default',
             type: 'better-sqlite3',
             database: ':memory:',
@@ -33,9 +34,19 @@ export class TestHelper {
             migrations: ['src/db/migrations/*.ts'],
             dropSchema: true,
             migrationsRun: true,
-            synchronize: true
-        })
+            synchronize: true,
+            seeds: ['src/db/seeds/*.ts'],
+            factories: ['src/db/factories/*.ts']        
+        }
+        this.dbConnect = new DataSource(options)
         await this.dbConnect.initialize();
+    }
+    
+    async setupSeeders(factories: any[], seeds: any[]) {
+        await runSeeders(this.dbConnect, {
+            factories: [...factories],
+            seeds: [...seeds],
+        });
     }
 
     async teardownTestDB() {
@@ -44,6 +55,11 @@ export class TestHelper {
         //     await repository.query(`DELETE FROM ${entity.tableName}`);
         // });
         // await Promise.all(entityDeletionPromises);
+        const migrationExecutor = new MigrationExecutor(this.dbConnect);
+        const migrations = await migrationExecutor.getAllMigrations();
+        for (const _ of migrations) {
+            await this.dbConnect.undoLastMigration();
+        }                
         this.dbConnect.destroy();
         this.testdb.close();
     }

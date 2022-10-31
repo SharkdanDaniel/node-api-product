@@ -1,4 +1,4 @@
-import { describe, expect, it, beforeEach, beforeAll, afterAll } from '@jest/globals';
+import { describe, expect, test, beforeEach, beforeAll, afterAll } from '@jest/globals';
 import supertest from 'supertest';
 import { hash } from "bcryptjs";
 import { DataSource } from 'typeorm';
@@ -6,8 +6,9 @@ import { TestHelper } from '../../tests/TestHelper';
 import { User } from '../entities/User';
 import { AuthService } from './AuthService';
 import { instanceToPlain } from 'class-transformer';
+import { userMock } from '../../tests/mocks/userMock';
 
-describe('AuthService', () => {
+describe(`${AuthService.name}`, () => {
     let authService: AuthService;
     let database: DataSource;
 
@@ -18,24 +19,30 @@ describe('AuthService', () => {
         authService.usersRepositories = database.getRepository(User);
     });
 
-    afterAll(() => {
-        TestHelper.instance.teardownTestDB();
+    afterAll(async () => {
+        await TestHelper.instance.teardownTestDB();
     });
 
-    it(`should be created`, async () => {
+    test(`should be created`, async () => {
         expect(authService).toBeTruthy();
     });
 
-    it(`${AuthService.prototype.login.name} should be success`, async () => {
-        const password = await hash("test", 8);
-        const newUser = authService.usersRepositories.create({ name: "test", email: "test@test.com", admin: true, password });
+    test(`${AuthService.prototype.login.name} should be success`, async () => {
+        const password = await hash(userMock.password, 8);
+        const newUser = authService.usersRepositories.create({ 
+            name: userMock.name, 
+            email: userMock.email, 
+            admin: userMock.admin, 
+            password 
+        });
         const createdUser = instanceToPlain(await authService.usersRepositories.save(newUser));
-        const user = { email: newUser.email, password: 'test' };
+        const user = { email: userMock.email, password: userMock.password };
         const response = await authService.login(user);
         expect(response.profile).toMatchObject(createdUser);
+        expect(response.token).toMatch(/^[\w-]+\.[\w-]+\.[\w-]+$/);
     });
 
-    it(`${AuthService.prototype.login.name} should throw error when password is incorrect`, async () => {
+    test(`${AuthService.prototype.login.name} should throw error when password is incorrect`, async () => {
         const user = { email: 'test@test.com', password: '478' };
         try {
             await authService.login(user);
@@ -44,7 +51,7 @@ describe('AuthService', () => {
         }
     });
 
-    it(`${AuthService.prototype.login.name} should throw error when user is not found`, async () => {
+    test(`${AuthService.prototype.login.name} should throw error when user is not found`, async () => {
         const user = { email: 'anyuser@user.com', password: '' };
         // expect(async () => await authService.login(user)).toThrow("Email/Password incorrect");
         try {

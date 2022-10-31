@@ -9,8 +9,8 @@ export const authRouter = (router: Router) => {
      * POST /api/login
      * @summary Login to get token access
      * @tags Auth
-     * @param {LoginRequest} request.body.required
-     * @return {LoginResponse} 200 - success response - application/json
+     * @param {LoginRequestDTO} request.body.required
+     * @return {LoginResponseDTO} 200 - success response - application/json
      */
     router.post("/login", authController.login);
 } 

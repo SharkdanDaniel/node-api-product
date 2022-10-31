@@ -15,7 +15,7 @@ export const userRouter = (router: Router) => {
      * @param {string} order.query - Order by property name - default: name
      * @param {string} sort.query - ASC or DESC order - default: ASC
      * @param {string} search.query - Terms to filter items
-     * @return {UserList} 200 - success response - application/json
+     * @return {UserListDTO} 200 - success response - application/json
      
      */
     router.get("/users", ensureAuth, userController.getAll);
@@ -25,7 +25,7 @@ export const userRouter = (router: Router) => {
      * @tags Users
      * @security BearerAuth
      * @param {string} userId.path.required - user id - uuid
-     * @return {UserModel} 200 - success response - application/json
+     * @return {UserDTO} 200 - success response - application/json
      */
     router.get("/users/:id", ensureAuth, userController.getById);
     /**
@@ -33,8 +33,8 @@ export const userRouter = (router: Router) => {
      * @summary Create a user
      * @tags Users
      * @security BearerAuth
-     * @param {UserCreate} request.body.required
-     * @return {UserDTO} 200 - success response - application/json
+     * @param {UserCreateDTO} request.body.required
+     * @return {UserModel} 200 - success response - application/json
      */
     router.post("/users", ensureAuth, userController.create);
     /**
@@ -42,8 +42,8 @@ export const userRouter = (router: Router) => {
      * @summary Update a user
      * @tags Users
      * @security BearerAuth
-     * @param {UserUpdate} request.body.required
-     * @return {UserModel} 200 - success response - application/json
+     * @param {UserUpdateDTO} request.body.required
+     * @return {UserDTO} 200 - success response - application/json
      */
     router.put("/users", ensureAuth, userController.update);
     /**

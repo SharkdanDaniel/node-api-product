@@ -1,5 +1,6 @@
 import { instanceToPlain } from "class-transformer";
 import { Product } from "../entities/Product";
+import { TagMapper } from "../mappers/TagMapper";
 import { TagsRepositories } from "../repositories/TagsRepositories";
 
 interface ITagRequest {
@@ -25,7 +26,7 @@ export class TagService {
                 .where('name LIKE :name', { name: `%${search}%` })
                 .getCount()
             
-            return { data: instanceToPlain(tags), total };
+            return { data: TagMapper.toListDTO(tags), total };
 
         } catch (error: any) {
             throw new Error(error);
@@ -34,8 +35,8 @@ export class TagService {
 
     async getById(id: string) {
         const tagsRepositories = TagsRepositories;
-        const tags = await tagsRepositories.find({ where: { id }, relations: { products: true } });
-        if(tags) return instanceToPlain(tags);
+        const tag = await tagsRepositories.findOne({ where: { id }, relations: { products: true } });
+        if(tag) return TagMapper.toDTO(tag);
         throw { status: 404, message: "Tag not found" };
     }
 
@@ -43,7 +44,7 @@ export class TagService {
         const tagsRepositories = TagsRepositories;
         const tag = tagsRepositories.create({ name });
         await tagsRepositories.save(tag);
-        return instanceToPlain(tag);
+        return TagMapper.toModel(tag);
     }
 
     async update({ id, name, products }: ITagRequest) {
@@ -54,7 +55,7 @@ export class TagService {
             tag.updatedAt = new Date();
             if(products) tag.products = products;  
             await tagsRepositories.save(tag);
-            return instanceToPlain(tag);
+            return TagMapper.toDTO(tag);
         }
         throw ({ status: 404, message: 'Tag not found' });
     }

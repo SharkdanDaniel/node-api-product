@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { AvatarController } from "../controllers/AvatarController";
 import { TagController } from "../controllers/TagController";
+import { AvatarDTO } from "../dtos/AvatarDTO";
 import { ensureAuth } from "../middlewares/ensureAuth";
 
 const avatarController = new AvatarController();
@@ -12,7 +13,7 @@ export const avatarRouter = (router: Router) => {
      * @tags Avatars
      * @security BearerAuth
      * @param {string} avatarId.path.required - avatar id - uuid
-     * @return {AvatarModel} 200 - success response - application/json
+     * @return {AvatarDTO} 200 - success response - application/json
      */
     router.get("/avatars/:id", ensureAuth, avatarController.getById);
     /**
@@ -20,8 +21,8 @@ export const avatarRouter = (router: Router) => {
      * @summary Create an Avatar
      * @tags Avatars
      * @security BearerAuth
-     * @param {AvatarCreate} request.body.required - image file - multipart/form-data
-     * @return {AvatarModel} 200 - success response - application/json
+     * @param {AvatarCreateDTO} request.body.required - image file - multipart/form-data
+     * @return {AvatarDTO} 200 - success response - application/json
      */
     router.post("/avatars", ensureAuth, avatarController.create);
     /**
@@ -30,8 +31,8 @@ export const avatarRouter = (router: Router) => {
      * @tags Avatars
      * @security BearerAuth
      * @param {string} avatarId.path.required - avatar id - uuid
-     * @param {AvatarCreate} request.body.required - image file - multipart/form-data
-     * @return {AvatarModel} 200 - success response - application/json
+     * @param {AvatarCreateDTO} request.body.required - image file - multipart/form-data
+     * @return {AvatarDTO} 200 - success response - application/json
      */
     router.put("/avatars/:id", ensureAuth, avatarController.update);
     /**

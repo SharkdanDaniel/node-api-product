@@ -3,6 +3,7 @@ import { UploadedFile } from "express-fileupload";
 import { AvatarsRepositories } from "../repositories/AvatarsRepositories";
 import { UsersRepositories } from "../repositories/UsersRepositories";
 import fs from "fs";
+import { AvatarMapper } from "../mappers/AvatarMapper";
 const pathService = require('path');
 
 interface IAvatarRequest {
@@ -15,7 +16,7 @@ export class AvatarService {
     async getById(id: string) {
         const avatarsRepositories = AvatarsRepositories;
         const avatar = await avatarsRepositories.findOne({ where: { id }, relations: { user: true } });
-        if (avatar) return instanceToPlain(avatar);
+        if (avatar) return AvatarMapper.toDTO(avatar);
         throw { status: 404, message: "Avatar not found" };
     }
 
@@ -35,7 +36,7 @@ export class AvatarService {
             if (err) throw new Error(err);
             return file.name
         })
-        return instanceToPlain(avatar);
+        return AvatarMapper.toDTO(avatar);
     }
 
     async update({ file, id }: IAvatarRequest) {
@@ -56,7 +57,7 @@ export class AvatarService {
             fs.unlink(oldPath, (err) => {
                 if(err) throw err;
             })
-            return instanceToPlain(avatar);
+            return AvatarMapper.toDTO(avatar);
         }
         throw ({ status: 404, message: 'Avatar not found' });
     }

@@ -1,6 +1,7 @@
 import { instanceToPlain } from "class-transformer";
 import { Tag } from "../entities/Tag";
 import { User } from "../entities/User";
+import { ProdcutMapper } from "../mappers/ProductMapper";
 import { ProductsRepositories } from "../repositories/ProductsRepositories";
 
 interface IProductRequest {
@@ -33,7 +34,7 @@ export class ProductService {
                 .orWhere('description LIKE :description', { description: `%${search}%` })
                 .getCount()
             
-            return { data: instanceToPlain(products), total };
+            return { data: ProdcutMapper.toListDTO(products), total };
 
         } catch (error: any) {
             throw new Error(error);
@@ -42,8 +43,8 @@ export class ProductService {
 
     async getById(id: string) {
         const productsRepositories = ProductsRepositories;
-        const product = await productsRepositories.find({ where: { id }, relations: { tags: true, users: true } });
-        if(product) return instanceToPlain(product);
+        const product = await productsRepositories.findOne({ where: { id }, relations: { tags: true, users: true } });
+        if(product) return ProdcutMapper.toDTO(product);
         throw { status: 404, message: "Product not found" };
     }
 
@@ -51,7 +52,7 @@ export class ProductService {
         const productsRepositories = ProductsRepositories;
         const product = productsRepositories.create({ name, price, description });
         await productsRepositories.save(product);
-        return instanceToPlain(product);
+        return ProdcutMapper.toModel(product);
     }
 
     async update({ id, name, price, description, users, tags }: IProductRequest) {
@@ -65,7 +66,7 @@ export class ProductService {
             if(users) product.users = users;  
             if(tags) product.tags = tags;  
             await productsRepositories.save(product);
-            return instanceToPlain(product);
+            return ProdcutMapper.toDTO(product);
         }
         throw ({ status: 404, message: 'Product not found' });
     }

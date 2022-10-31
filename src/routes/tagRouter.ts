@@ -15,7 +15,7 @@ export const tagRouter = (router: Router) => {
      * @param {string} order.query - Order by property name - default: name
      * @param {string} sort.query - ASC or DESC order - default: ASC
      * @param {string} search.query - Terms to filter items
-     * @return {TagList} 200 - success response - application/json
+     * @return {TagListDTO} 200 - success response - application/json
      
      */
     router.get("/tags", ensureAuth, tagController.getAll);
@@ -33,8 +33,8 @@ export const tagRouter = (router: Router) => {
      * @summary Create a Tag
      * @tags Tags
      * @security BearerAuth
-     * @param {TagDTO} request.body.required
-     * @return {TagDTO} 200 - success response - application/json
+     * @param {TagCreateDTO} request.body.required
+     * @return {TagModel} 200 - success response - application/json
      */
     router.post("/tags", ensureAuth, tagController.create);
     /**
@@ -42,8 +42,8 @@ export const tagRouter = (router: Router) => {
      * @summary Update a Tag
      * @tags Tags
      * @security BearerAuth
-     * @param {TagModel} request.body.required
-     * @return {TagModel} 200 - success response - application/json
+     * @param {TagUpdateDTO} request.body.required
+     * @return {TagDTO} 200 - success response - application/json
      */
     router.put("/tags", ensureAuth, tagController.update);
     /**

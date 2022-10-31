@@ -1,6 +1,6 @@
 import { compare } from "bcryptjs";
-import { instanceToPlain } from "class-transformer";
 import { sign } from "jsonwebtoken";
+import { UserMapper } from "../mappers/UserMapper";
 import { UsersRepositories } from "../repositories/UsersRepositories";
 
 interface IAuthRequest {
@@ -22,6 +22,6 @@ export class AuthService {
             "c49cfe9b8595f44183680fa21dc75fb5",
             { subject: user.id, expiresIn: "1d" }
         )
-        return { token, profile: instanceToPlain(user) };
+        return { token, profile: UserMapper.toDTO(user) };
     }
 }
