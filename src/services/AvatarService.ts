@@ -16,7 +16,17 @@ export class AvatarService {
     async getById(id: string) {
         const avatarsRepositories = AvatarsRepositories;
         const avatar = await avatarsRepositories.findOne({ where: { id }, relations: { user: true } });
-        if (avatar) return AvatarMapper.toDTO(avatar);
+        if (avatar) {
+            const path = pathService.join(__dirname, '../uploads', avatar.fileName);
+            const image = await fs.readFileSync(path).toString('base64');
+            if(image) avatar.src = `data:image/${avatar.mediaType};base64, ${image}`;
+
+            // await fs.readFile(path, (err, data) => {
+            //     if(err) throw err;
+            //     src = `data:image/${avatar.mediaType};base64, ${data.toString('base64')}`;
+            // })
+            return AvatarMapper.toDTO(avatar)
+        };
         throw { status: 404, message: "Avatar not found" };
     }
 
