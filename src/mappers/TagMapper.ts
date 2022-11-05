@@ -14,7 +14,7 @@ export class TagMapper {
         return {
             id: tag.id,
             name: tag.name,
-            products: tag.products,
+            products: tag.products || [],
         } as TagDTO
     }
 

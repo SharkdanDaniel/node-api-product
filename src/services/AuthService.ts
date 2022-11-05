@@ -1,5 +1,7 @@
 import { compare } from "bcryptjs";
 import { sign } from "jsonwebtoken";
+import { Repository } from "typeorm";
+import { User } from "../entities/User";
 import { UserMapper } from "../mappers/UserMapper";
 import { UsersRepositories } from "../repositories/UsersRepositories";
 
@@ -10,7 +12,11 @@ interface IAuthRequest {
 
 export class AuthService {
 
-    public usersRepositories = UsersRepositories;
+    usersRepositories: Repository<User>;
+
+    constructor(private _userRepo: Repository<User>) {
+        this.usersRepositories = _userRepo;
+    }
 
     async login({ email, password }: IAuthRequest) {
         const user = await this.usersRepositories.findOneBy({ email });

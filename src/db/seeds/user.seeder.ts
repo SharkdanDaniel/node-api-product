@@ -2,7 +2,7 @@ import { Seeder, SeederFactoryManager } from 'typeorm-extension';
 import { DataSource } from 'typeorm';
 import { User } from '../../entities/User';
 import { hash } from 'bcryptjs';
-import { userMock } from '../../../tests/mocks/userMock';
+import { userMock } from '../../../tests/mocks/testMocks';
 
 export const usersCount = 5;
 

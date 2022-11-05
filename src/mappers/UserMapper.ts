@@ -18,8 +18,8 @@ export class UserMapper {
             name: user.name,
             email: user.email,
             admin: user.admin,
-            avatar: user.avatar,
-            products: user.products
+            avatar: user.avatar || [],
+            products: user.products || []
         } as UserDTO
     }
 

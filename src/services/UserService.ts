@@ -2,9 +2,10 @@ import { UsersRepositories } from "../repositories/UsersRepositories";
 import { hash } from "bcryptjs";
 import { instanceToPlain } from "class-transformer";
 import { Product } from "../entities/Product";
-import { Brackets } from "typeorm";
+import { Brackets, Repository } from "typeorm";
 import { UserMapper } from "../mappers/UserMapper";
 import { UserListDTO } from "../dtos/UserDTO";
+import { User } from "../entities/User";
 
 interface IUserRequest {
     id?: string;
@@ -16,34 +17,33 @@ interface IUserRequest {
 }
 
 export class UserService {
-    usersRepositories = UsersRepositories;
+    usersRepositories: Repository<User>;
+
+    constructor(private _userRepo: Repository<User>) {
+        this.usersRepositories = _userRepo;
+    }
 
     async getAll(skip: any = 0, take: any = 10, order: any = 'name', sort: any = 'asc', search: any = '') {
-        try {
-            const users = await this.usersRepositories.createQueryBuilder()
-                .skip(skip)
-                .take(take)
-                .orderBy({ [order]: sort })
-                .where('email != :email', { email: 'admin@admin.com' })
-                .andWhere(
-                    new Brackets((qb) => {
-                        qb.where('name LIKE :name', { name: `%${search}%` })
-                        .orWhere('email LIKE :email', { email: `%${search}%` })
-                    })
-                )
-                .getMany()
+        const users = await this.usersRepositories.createQueryBuilder()
+            .skip(skip)
+            .take(take)
+            .orderBy({ [order]: sort })
+            .where('email != :email', { email: 'admin@admin.com' })
+            .andWhere(
+                new Brackets((qb) => {
+                    qb.where('name LIKE :name', { name: `%${search}%` })
+                    .orWhere('email LIKE :email', { email: `%${search}%` })
+                })
+            )
+            .getMany()
 
-            const total = await this.usersRepositories.createQueryBuilder()
-                .orderBy({ [order]: sort })
-                .where('name LIKE :name', { name: `%${search}%` })
-                .orWhere('email LIKE :email', { email: `%${search}%` })
-                .getCount()
-            
-            return { data: UserMapper.toListDTO(users), total } as UserListDTO;
-
-        } catch (error: any) {
-            throw new Error(error);
-        }
+        const total = await this.usersRepositories.createQueryBuilder()
+            .orderBy({ [order]: sort })
+            .where('name LIKE :name', { name: `%${search}%` })
+            .orWhere('email LIKE :email', { email: `%${search}%` })
+            .getCount()
+        
+        return { data: UserMapper.toListDTO(users), total } as UserListDTO;
     }
 
     async getById(id: string) {
@@ -59,8 +59,7 @@ export class UserService {
         const passwordHash = await hash(password, 8);
         const user = this.usersRepositories.create({ name, email, admin, password: passwordHash });
         await this.usersRepositories.save(user);
-        if(user) return UserMapper.toModel(user);
-        throw { status: 404, message: "User not found" };
+        return UserMapper.toModel(user);
     }
 
     async update({ id, name, email, admin, password, products }: IUserRequest) {

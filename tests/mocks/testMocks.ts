@@ -4,3 +4,7 @@ export const userMock = {
     admin: true,
     password: 'test'
 }
+
+export const tagMock = {
+    name: 'tag mock',
+}

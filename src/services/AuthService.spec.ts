@@ -6,7 +6,8 @@ import { TestHelper } from '../../tests/TestHelper';
 import { User } from '../entities/User';
 import { AuthService } from './AuthService';
 import { instanceToPlain } from 'class-transformer';
-import { userMock } from '../../tests/mocks/userMock';
+import { userMock } from '../../tests/mocks/testMocks';
+import { UserMapper } from '../mappers/UserMapper';
 
 describe(`${AuthService.name}`, () => {
     let authService: AuthService;
@@ -15,8 +16,7 @@ describe(`${AuthService.name}`, () => {
     beforeAll(async () => {
         await TestHelper.instance.setupTestDB();
         database = TestHelper.instance.database;
-        authService = new AuthService();
-        authService.usersRepositories = database.getRepository(User);
+        authService = new AuthService(database.getRepository(User));
     });
 
     afterAll(async () => {
@@ -35,10 +35,10 @@ describe(`${AuthService.name}`, () => {
             admin: userMock.admin, 
             password 
         });
-        const createdUser = instanceToPlain(await authService.usersRepositories.save(newUser));
+        const createdUser = UserMapper.toDTO(await authService.usersRepositories.save(newUser));
         const user = { email: userMock.email, password: userMock.password };
         const response = await authService.login(user);
-        expect(response.profile).toMatchObject(createdUser);
+        expect(response.profile).toMatchObject(createdUser as any);
         expect(response.token).toMatch(/^[\w-]+\.[\w-]+\.[\w-]+$/);
     });
 
