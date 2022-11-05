@@ -21,7 +21,7 @@ export const userRouter = (router: Router) => {
     router.get("/users", ensureAuth, userController.getAll);
     /**
      * GET /api/users/{userId}
-     * @summary Login to get token access
+     * @summary Get an user
      * @tags Users
      * @security BearerAuth
      * @param {string} userId.path.required - user id - uuid
@@ -30,7 +30,7 @@ export const userRouter = (router: Router) => {
     router.get("/users/:id", ensureAuth, userController.getById);
     /**
      * POST /api/users
-     * @summary Create a user
+     * @summary Create an user
      * @tags Users
      * @security BearerAuth
      * @param {UserCreateDTO} request.body.required
@@ -39,7 +39,7 @@ export const userRouter = (router: Router) => {
     router.post("/users", ensureAuth, userController.create);
     /**
      * PUT /api/users
-     * @summary Update a user
+     * @summary Update an user
      * @tags Users
      * @security BearerAuth
      * @param {UserUpdateDTO} request.body.required
@@ -48,7 +48,7 @@ export const userRouter = (router: Router) => {
     router.put("/users", ensureAuth, userController.update);
     /**
      * DELETE /api/users/{userId}
-     * @summary Delete a user
+     * @summary Delete an user
      * @tags Users
      * @security BearerAuth
      * @param {string} userId.path.required - user id - uuid

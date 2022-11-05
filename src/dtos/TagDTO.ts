@@ -2,13 +2,6 @@ import { DataListDTO } from "./DataListDTO";
 import { ProductModel } from "./ProductDTO";
 import { UserModel } from "./UserDTO";
 
-/**
- * A tag type
- * @typedef {object} TagModel
- * @property {string} id - tag id - uuid
- * @property {string} name 
- */
-
  export interface TagModel {
     id: string;
     name: string; 

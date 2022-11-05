@@ -25,7 +25,7 @@ export const tagRouter = (router: Router) => {
      * @tags Tags
      * @security BearerAuth
      * @param {string} tagId.path.required - tag id - uuid
-     * @return {TagModel} 200 - success response - application/json
+     * @return {TagDTO} 200 - success response - application/json
      */
     router.get("/tags/:id", ensureAuth, tagController.getById);
     /**

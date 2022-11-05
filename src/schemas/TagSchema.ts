@@ -1,5 +1,12 @@
 /**
  * A tag type
+ * @typedef {object} TagModel
+ * @property {string} id - tag id - uuid
+ * @property {string} name 
+ */
+
+/**
+ * A tag type
  * @typedef {object} TagDTO
  * @property {string} id - tag id - uuid
  * @property {string} name
@@ -17,7 +24,7 @@
  * @typedef {object} TagUpdateDTO
  * @property {string} id - tag id - uuid
  * @property {string} name
- * @property {UserModel} user
+ * @property {ProductModel[]} products
  */
 
 /**

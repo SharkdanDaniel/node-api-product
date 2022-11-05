@@ -14,8 +14,8 @@
  * @property {string} name
  * @property {string} email - user email - email
  * @property {boolean} admin
- * @property {Avatar} avatar
- * @property {Product[]} products
+ * @property {AvatarDTO} avatar
+ * @property {ProductModel[]} products
  */
 
 /**
