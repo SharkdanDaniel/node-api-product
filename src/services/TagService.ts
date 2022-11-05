@@ -15,8 +15,8 @@ interface ITagRequest {
 export class TagService {
     tagsRepositories: Repository<Tag>;
 
-    constructor(private _tagRepo: Repository<Tag>) {
-        this.tagsRepositories = _tagRepo;
+    constructor(private _tagRepo?: Repository<Tag>) {
+        this.tagsRepositories = _tagRepo || TagsRepositories;
     }
 
     async getAll(skip: any = 0, take: any = 10, order: any = 'name', sort: any = 'asc', search: any = '') {

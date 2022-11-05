@@ -19,8 +19,8 @@ interface IUserRequest {
 export class UserService {
     usersRepositories: Repository<User>;
 
-    constructor(private _userRepo: Repository<User>) {
-        this.usersRepositories = _userRepo;
+    constructor(private _userRepo?: Repository<User>) {
+        this.usersRepositories = _userRepo || UsersRepositories;
     }
 
     async getAll(skip: any = 0, take: any = 10, order: any = 'name', sort: any = 'asc', search: any = '') {

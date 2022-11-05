@@ -14,8 +14,8 @@ export class AuthService {
 
     usersRepositories: Repository<User>;
 
-    constructor(private _userRepo: Repository<User>) {
-        this.usersRepositories = _userRepo;
+    constructor(private _userRepo?: Repository<User>) {
+        this.usersRepositories = _userRepo || UsersRepositories;
     }
 
     async login({ email, password }: IAuthRequest) {
